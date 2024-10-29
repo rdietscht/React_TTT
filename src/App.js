@@ -122,13 +122,17 @@ export default function Game ()
   const [xIsNext, setXIsNext] = useState (true);
   const [history, setHistory] = useState ([Array(9).fill (null)]); // History is initialized to an array with one element: an array of 9 nulls (aka the initial state of our game.)
   const [currentMove, setCurrentMove] = useState (0); // Tracks the current move index in the history we are in.
-  const currentSquares = history[history.length - 1]; // The current state of the Board should be the last step in history.
+  const currentSquares = history[currentMove]; // The current state of the Board should be the last step in history.
 
   // This function handles a player's single turn in a game. Called by Board to update its state.
   function handlePlay (nextSquares)
     {
-      // Update the history of the Game by appending the nextSquare array. Also update player turn.
-      setHistory ([...history, nextSquares]);
+      // Get the history up to where we currently are in the history. Needed for time travel.
+      const nextHistory = [...history.slice (0, currentMove + 1), nextSquares];
+
+      // Update the history of the Game after appending it with the nextSquare array. Also update player turn and move states.
+      setHistory (nextHistory);
+      setCurrentMove (nextHistory.length - 1);
       setXIsNext (!xIsNext);
     }
 
