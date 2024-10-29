@@ -22,11 +22,8 @@ function Square ({ value, onSquareClick })
 }
 
 // Board holds data about the current state of the game.
-function Board()
+function Board({ xTurn, squares, onPlay })
 {
-
-  const [xTurn, setXTurn] = useState (true); // Keep track of turn state
-  const [squares, setSquares] = useState (Array(9).fill (null)); // Keep track of board state
 
   /**
    * Board method: Updates the square referenced by the given index.
@@ -54,8 +51,7 @@ function Board()
         nextSquares[i] = "O";
       }
 
-    setSquares (nextSquares);
-    setXTurn (!xTurn);
+    onPlay (nextSquares);
   }
 
   function calculateWinner(squares)
@@ -121,10 +117,24 @@ function Board()
 // Game controls Board data by letting it use its state.
 export default function Game ()
 {
+
+  // Game states to keep track of
+  const [xIsNext, setXIsNext] = useState (true);
+  const [history, setHistory] = useState ([Array(9).fill (null)]); // History is initialized to an array with one element: an array of 9 nulls (aka the initial state of our game.)
+  const currentSquares = history[history.length - 1]; // The current state of the Board should be the last step in history.
+
+  // This function handles a player's single turn in a game. Called by Board to update its state.
+  function handlePlay (nextSquares)
+    {
+      // Update the history of the Game by appending the nextSquare array. Also update player turn.
+      setHistory ([...history, nextSquares]);
+      setXIsNext (!xIsNext);
+    }
+
   return (
     <div className='game'>
       <div className='game-board'>
-        <Board />
+        <Board xTurn={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className='game-info'>
         <ol>{/* TODO! */}</ol>
