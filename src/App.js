@@ -131,13 +131,51 @@ export default function Game ()
       setXIsNext (!xIsNext);
     }
 
+    // Used to get one step in the history.
+    function jumpTo (nextMove)
+      {
+        // TODO
+      }
+
+      // The map function takes a callback function, (created using "() => {}" syntax) that will be used to transform a list of elements to another list of elements.
+      // In this case, we are transforming a list of string/null values to a list of button objects.
+      const moves = history.map ((squares, move) => {
+        let description;
+
+        if (move > 0)
+          {
+            description = 'Go to move #' + move;
+          }
+        else
+          {
+            description = 'Go to game start';
+          }
+
+        // This looks confusing, but it's actually very simple. All this is
+        // doing is returning a button element (encapsulated within a list element,
+        // since it is being rendered within a larger <ol> element,) that calls
+        // the "jumpTo" Game function when it is clicked. This button is rendered
+        // for each element in our history array. In other words, each entry in
+        // history will have an associated button that calls jumpTo. This array of
+        // button elements is then assigned to our "moves" variable to be rendered
+        // in our Game component.
+        return (
+          <li>
+            <button onClick={() => jumpTo (move)}>{description}</button>
+          </li>
+        );
+
+      });
+
   return (
     <div className='game'>
       <div className='game-board'>
         <Board xTurn={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className='game-info'>
-        <ol>{/* TODO! */}</ol>
+        <ol>
+          {moves}
+        </ol>
       </div>
     </div>
   );
