@@ -159,8 +159,15 @@ export default function Game ()
         // history will have an associated button that calls jumpTo. This array of
         // button elements is then assigned to our "moves" variable to be rendered
         // in our Game component.
+        // 
+        // Additionally, we must use the key React attribute that tells
+        // the React compiler which list element is which. This is
+        // necessary anytime we have dynamic lists, (lists that can be
+        // modified/added to/deleted from). We must choose a number that
+        // stays consistent and doesn't get reordered, (i.e., the number
+        // associated with a move step in the history.)
         return (
-          <li>
+          <li key={move}>
             <button onClick={() => jumpTo (move)}>{description}</button>
           </li>
         );
