@@ -21,8 +21,8 @@ function Square ({ value, onSquareClick })
   );
 }
 
-// The single function that is executed when we refer to the App component in other files.
-export default function Board()
+// Board holds data about the current state of the game.
+function Board()
 {
 
   const [xTurn, setXTurn] = useState (true); // Keep track of turn state
@@ -92,28 +92,43 @@ export default function Board()
     }
 
 
-    return (
-      <>
-  
-        {/* Status section to notify players of win */}
-        <div className="status">{status}</div>
+  return (
+    <>
 
-        {/* Each board in the game is a 3x3 2D table with squares */}
-        <div className="board-row">
-          <Square value={squares[0]} onSquareClick={() => { handleClick (0) }} />
-          <Square value={squares[1]} onSquareClick={() => { handleClick (1) }} />
-          <Square value={squares[2]} onSquareClick={() => { handleClick (2) }} />
-        </div>
-        <div className="board-row">
-          <Square value={squares[3]} onSquareClick={() => { handleClick (3) }} />
-          <Square value={squares[4]} onSquareClick={() => { handleClick (4) }} />
-          <Square value={squares[5]} onSquareClick={() => { handleClick (5) }} />
-        </div>
-        <div className="board-row">
-          <Square value={squares[6]} onSquareClick={() => { handleClick (6) }} />
-          <Square value={squares[7]} onSquareClick={() => { handleClick (7) }} />
-          <Square value={squares[8]} onSquareClick={() => { handleClick (8) }} />
-        </div>
-      </>
-    );
-  }
+      {/* Status section to notify players of win */}
+      <div className="status">{status}</div>
+
+      {/* Each board in the game is a 3x3 2D table with squares */}
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => { handleClick (0) }} />
+        <Square value={squares[1]} onSquareClick={() => { handleClick (1) }} />
+        <Square value={squares[2]} onSquareClick={() => { handleClick (2) }} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[3]} onSquareClick={() => { handleClick (3) }} />
+        <Square value={squares[4]} onSquareClick={() => { handleClick (4) }} />
+        <Square value={squares[5]} onSquareClick={() => { handleClick (5) }} />
+      </div>
+      <div className="board-row">
+        <Square value={squares[6]} onSquareClick={() => { handleClick (6) }} />
+        <Square value={squares[7]} onSquareClick={() => { handleClick (7) }} />
+        <Square value={squares[8]} onSquareClick={() => { handleClick (8) }} />
+      </div>
+    </>
+  );
+}
+
+// Game controls Board data by letting it use its state.
+export default function Game ()
+{
+  return (
+    <div className='game'>
+      <div className='game-board'>
+        <Board />
+      </div>
+      <div className='game-info'>
+        <ol>{/* TODO! */}</ol>
+      </div>
+    </div>
+  );
+}
