@@ -119,10 +119,11 @@ export default function Game ()
 {
 
   // Game states to keep track of
-  const [xIsNext, setXIsNext] = useState (true);
+  // const [xIsNext, setXIsNext] = useState (true); // Old, redundant state. No longer used.
   const [history, setHistory] = useState ([Array(9).fill (null)]); // History is initialized to an array with one element: an array of 9 nulls (aka the initial state of our game.)
   const [currentMove, setCurrentMove] = useState (0); // Tracks the current move index in the history we are in.
   const currentSquares = history[currentMove]; // The current state of the Board should be the last step in history.
+  const xIsNext = currentMove % 2 === 0; // We can figure out whose move it is by using currentMove. No need to use state, as it's redundant and leads to buggy code.
 
   // This function handles a player's single turn in a game. Called by Board to update its state.
   function handlePlay (nextSquares)
@@ -133,14 +134,12 @@ export default function Game ()
       // Update the history of the Game after appending it with the nextSquare array. Also update player turn and move states.
       setHistory (nextHistory);
       setCurrentMove (nextHistory.length - 1);
-      setXIsNext (!xIsNext);
     }
 
     // Used to get update the currentMove state in our Game component.
     function jumpTo (nextMove)
       {
         setCurrentMove (nextMove);
-        setXIsNext (nextMove % 2 === 0);
       }
 
       // The map function takes a callback function, (created using "() => {}" syntax) that will be used to transform a list of elements to another list of elements.
